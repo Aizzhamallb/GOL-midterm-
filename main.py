@@ -2,7 +2,7 @@ from tkinter import *
 from time import sleep
 from random import randint, choice
 from turtle import heading
-
+import copy
 
 class Field:
     def __init__(self, c, n, m, width, height, walls=False):
@@ -33,27 +33,34 @@ class Field:
         self.a = [[randint(0, 2) for i in range(width)] for j in range(height)]
         self.draw()
 
+    
     def step(self):
-        b = []
-        for i in range(self.n):
-            b.append([])
-            for j in range(self.m):
-                b[i].append(0)
-
-        for i in range(1, self.n - 1):
-            for j in range(1, self.m - 1):
-                neib_sum = self.a[i - 1][j - 1] + self.a[i - 1][j] + self.a[i - 1][j + 1] + self.a[i][j - 1] + \
-                           self.a[i - 1][j + 1] + self.a[i + 1][j - 1] + self.a[i + 1][j] + self.a[i + 1][j + 1]
-                if neib_sum == 3:
-                    b[i][j] = 1
-                elif neib_sum == 5 or neib_sum == 1:
-                    b[i][j] = 2
-                elif neib_sum % 2 == 0:
-                    b[i][j] = 0
-                else:
-                    b[i][j] = self.a[i][j]
-
-        self.a = b
+        self.cop = copy.deepcopy(self.a)
+        
+        for i in range(1, self.n+1):
+            for j in range(1, self.m+1):
+                self.neighbor = 0
+                if self.cop[i+1][j] == 1:
+                    self.neighbor += 1
+                if self.cop[i+1][j+1] == 1:
+                    self.neighbor+=1
+                if self.cop[i][j+1] == 1:
+                    self.neighbor+=1
+                if self.cop[i-1][j+1] == 1:
+                    self.neighbor+=1
+                if self.cop[i-1][j] == 1:
+                    self.neighbor+=1
+                if self.cop[i-1][j-1] == 1:
+                    self.neighbor+=1
+                if self.cop[i][j-1] == 1:
+                    self.neighbor += 1
+                if self.cop[i+1][j-1] == 1:
+                    self.neighbor += 1
+                
+                if self.neighbor not in (2, 3):
+                    self.a[i][j] = 0
+                elif self.neighbor == 3:
+                    self.a[i][j] = 1
 
     def print_field(self):
         for i in range(self.n):
@@ -73,9 +80,9 @@ class Field:
         for i in range(1, self.n - 1):
             for j in range(1, self.m - 1):
                 if (self.a[i][j] == 1):
-                    color = "#FFB6C1" # sheeps
+                    color = "#696969" # sheeps
                 elif(self.a[i][j] == 2):
-                    color = "#696969" # wolves
+                    color = "#FFB6C1" # wolves
                 else:
                     color = "#228B22"
                 self.c.create_rectangle((i - 1) * sizen, (j - 1) * sizem, (i) * sizen, (j) * sizem, fill=color)
@@ -88,6 +95,6 @@ root.geometry("800x700")
 c = Canvas(root, width=900, height=700)
 c.pack()
 
-f = Field(c, 20, 20, 800, 700)
+f = Field(c, 100, 100, 800, 700)
 f.print_field()
 root.mainloop()
