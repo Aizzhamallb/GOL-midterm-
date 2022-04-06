@@ -22,4 +22,6 @@ otherwise, if there are less than two or more than three neighbors, the cell die
 	Who do I talk to?
 
 - Repo owner or admin![c0e41cbe-af5f-45f9-9feb-0327c391c48c](https://user-images.githubusercontent.com/101692724/161924343-95380bb8-7912-4f96-9ff2-2e08a617a906.jpg)
+
+
 ![b9e51fcd-e5ea-4e20-833d-87c446cc21cd](https://user-images.githubusercontent.com/101692724/161924527-97783a8b-0907-4030-ba64-eb4cd9f21c8d.jpg)
